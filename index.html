@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Despesas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Página de Login -->
+    <div id="login-page">
+        <h2>Login</h2>
+        <form id="login-form">
+            <label for="client-name">Nome do Cliente:</label>
+            <input type="text" id="client-name" required>
+            
+            <label for="card-name">Nome do Cartão:</label>
+            <input type="text" id="card-name" required>
+            
+            <label for="due-date">Data de Vencimento da Fatura:</label>
+            <input type="date" id="due-date" required>
+
+            <label for="card-limit">Limite do Cartão:</label>
+            <input type="number" id="card-limit" required>
+            
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <!-- Saudação -->
+    <div id="welcome-container" ">
+        <h2>Bem-vindo, <span id="display-client-name"></span></h2>
+    </div>
+
+    <!-- Botão de Adicionar Outro Cartão -->
+    <div id="add-card-container";">
+        <button id="add-card-btn">Adicionar Outro Cartão</button>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" style="display: none;">
+        <div id="cards-container" class="dashboard-item">
+            
+        </div>
+        
+        <div id="add-card-section" class="dashboard-item" style="display: none;">
+            <h3>Adicionar Novo Cartão</h3>
+            <form id="add-card-form">
+                <label for="new-card-name">Nome do Cartão:</label>
+                <input type="text" id="new-card-name" required>
+                
+                <label for="new-due-date">Data de Vencimento da Fatura:</label>
+                <input type="date" id="new-due-date" required>
+
+                <label for="new-card-limit">Limite do Cartão:</label>
+                <input type="number" id="new-card-limit" required>
+                
+                <button type="submit">Adicionar Cartão</button>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
