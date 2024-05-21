@@ -3,9 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const addCardForm = document.getElementById('add-card-form');
     const loginPage = document.getElementById('login-page');
     const dashboard = document.getElementById('dashboard');
-    const addCardSection = document.getElementById('add-card-section');
     const cardsContainer = document.getElementById('cards-container');
     const addCardBtn = document.getElementById('add-card-btn');
+    const addCardPopup = document.getElementById('add-card-popup');
+    const closeAddCardPopupBtn = document.getElementById('close-add-card-popup');
+    const welcomeContainer = document.getElementById('welcome-container');
+    const addCardContainer = document.getElementById('add-card-container');
 
     const clientNameInput = document.getElementById('client-name');
     const cardNameInput = document.getElementById('card-name');
@@ -34,27 +37,36 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('clientName', clientName);
         localStorage.setItem('cards', JSON.stringify(cards));
 
+        loginForm.reset();
         loadDashboard();
     });
 
     addCardForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        const cardName = document.getElementById('new-card-name').value;
-        const dueDate = document.getElementById('new-due-date').value;
-        const cardLimit = parseFloat(document.getElementById('new-card-limit').value);
+        const newCardName = document.getElementById('new-card-name').value;
+        const newDueDate = document.getElementById('new-due-date').value;
+        const newCardLimit = parseFloat(document.getElementById('new-card-limit').value);
 
-        const card = createCard(cardName, dueDate, cardLimit);
+        const card = createCard(newCardName, newDueDate, newCardLimit);
         cards.push(card);
 
         localStorage.setItem('cards', JSON.stringify(cards));
         updateDashboard();
+
         addCardForm.reset();
-        addCardSection.style.display = 'none';
+        closeAddCardPopup();
     });
 
-    addCardBtn.addEventListener('click', function() {
-        addCardSection.style.display = 'block';
-    });
+    addCardBtn.addEventListener('click', showAddCardPopup);
+    closeAddCardPopupBtn.addEventListener('click', closeAddCardPopup);
+
+    function showAddCardPopup() {
+        addCardPopup.style.display = 'block';
+    }
+
+    function closeAddCardPopup() {
+        addCardPopup.style.display = 'none';
+    }
 
     function createCard(cardName, dueDate, cardLimit) {
         return {
@@ -68,11 +80,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function loadDashboard() {
         displayClientName.textContent = clientName;
+        welcomeContainer.style.display = 'block';
+        addCardContainer.style.display = 'block';
         updateDashboard();
 
         loginPage.style.display = 'none';
         dashboard.style.display = 'block';
-        
     }
 
     function updateDashboard() {
@@ -80,18 +93,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         cards.forEach((card, cardIndex) => {
             const cardDiv = document.createElement('div');
-            cardDiv.className = 'card-box';
-
-            const daysUntilDue = calculateDaysUntilDue(card.dueDate);
-
+            cardDiv.className = 'card';
             cardDiv.innerHTML = `
                 <div class="card-info">
                     <h3>${card.cardName}</h3>
-                    <p>Data de Vencimento: ${card.dueDate} (Faltam ${daysUntilDue} dias)</p>
+                    <p>Data de Vencimento: ${card.dueDate} (Faltam ${calculateDaysUntilDue(card.dueDate)} dias)</p>
                     <p>Limite Disponível: R$<span class="available-limit">${card.limit.toFixed(2)}</span></p>
                     <p>Valor da Fatura: R$<span class="bill-amount">${card.bill.toFixed(2)}</span></p>
                 </div>
-                <button class="pay-button">${daysUntilDue > 6 ? 'Adiantar Fatura' : 'Pagar Fatura'}</button>
+                <button class="pay-button">${calculateDaysUntilDue(card.dueDate) > 6 ? 'Adiantar Fatura' : 'Pagar Fatura'}</button>
+                <button class="remove-card-button" data-card-index="${cardIndex}">Remover Cartão</button>
                 <h3>Compras</h3>
                 <ul class="purchase-list" data-card-index="${cardIndex}"></ul>
                 <h3>Adicionar Compra</h3>
@@ -161,6 +172,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+
+        const removeCardButtons = document.querySelectorAll('.remove-card-button');
+        removeCardButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const cardIndex = button.getAttribute('data-card-index');
+                if (confirm("Tem certeza de que deseja remover este cartão?")) {
+                    cards.splice(cardIndex, 1);
+                    localStorage.setItem('cards', JSON.stringify(cards));
+                    updateDashboard();
+                }
+            });
+        });
     }
 
     cardsContainer.addEventListener('click', function(event) {
@@ -181,11 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const today = new Date();
         const due = new Date(dueDate);
         const timeDiff = due.getTime() - today.getTime();
-        const daysUntilDue = Math.ceil(timeDiff / (        1000 * 3600 * 24));
-        return daysUntilDue;
+        return Math.ceil(timeDiff / (1000 * 3600 * 24));
     }
-
-    
-
-    
 });
