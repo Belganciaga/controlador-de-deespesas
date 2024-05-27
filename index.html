@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <button id="theme-toggle">Alternar Tema</button>
+   
+    <div id="notification-container"></div>
+
     <!-- Página de Login -->
     <div id="login-page">
         <h2>Login</h2>
@@ -28,7 +32,7 @@
     </div>
 
     <!-- Popup para adicionar um novo cartão -->
-    <div id="add-card-popup" class="popup" style="display: none;">
+    <div id="add-card-popup" class="popup">
         <div class="popup-content">
             <h3>Adicionar Novo Cartão</h3>
             <form id="add-card-form">
@@ -47,9 +51,37 @@
         </div>
     </div>
 
+    <!-- Popup de Configurações -->
+    <div id="settings-popup" class="popup">
+        <div class="popup-content">
+            <h3>Configurações</h3>
+            <form id="settings-form">
+                <label for="profile-picture">Imagem de Perfil:</label>
+                <input type="file" id="profile-picture" accept="image/*">
+                
+                <label for="theme-select">Escolher Tema:</label>
+                <select id="theme-select">
+                    <option value="default">Padrão</option>
+                    <option value="dark">Escuro</option>
+                    <option value="light">Claro</option>
+                </select>
+
+                <label for="layout-select">Layout do Painel:</label>
+                <select id="layout-select">
+                    <option value="grid">Grade</option>
+                    <option value="list">Lista</option>
+                </select>
+
+                <button type="submit">Salvar</button>
+            </form>
+            <button id="close-settings-popup" class="close-popup">Fechar</button>
+        </div>
+    </div>
+
     <!-- Saudação -->
     <div id="welcome-container" style="display: none;">
         <h2>Bem-vindo, <span id="display-client-name"></span></h2>
+        <div id="profile-picture-container"></div>
     </div>
 
     <!-- Botão de Adicionar Outro Cartão -->
@@ -61,6 +93,8 @@
     <div id="dashboard" style="display: none;">
         <div id="cards-container" class="dashboard-item"></div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
