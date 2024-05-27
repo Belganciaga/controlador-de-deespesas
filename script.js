@@ -116,9 +116,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     <label for="purchase-category-${cardIndex}">Categoria:</label>
                     <select id="purchase-category-${cardIndex}" required>
-                        <option value="Alimentação">Alimentação</option>
-                        <option value="Transporte">Transporte</option>
-                        <option value="Moradia">Moradia</option>
+                        <option value="Educação">Educação</option>
+                        <option value="saude">saude</option>
+                        <option value="contas fixas">contas fixas</option>
+                        <option value="puopanças">poupanças</option>
+                        <option value="ajuda familiar">ajuda familiar</option>
+                        <option value="transporte">transporte</option>
+                        <option value="lazer">lazer</option>
+                        <option value="alimentação">alimentação</option>
+                        <option value="cosmeticos">cosmeticos</option>
                         <!-- Adicione mais opções conforme necessário -->
                     </select>
                     
